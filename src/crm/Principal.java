@@ -24,7 +24,7 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
-        this.setTitle("SharkWeb CRM");
+        this.setTitle("Ideal Congelados");
         this.setIconImage(new ImageIcon(getClass().getResource("imagem/sale.png")).getImage());
         this.setLocationRelativeTo(null);
         Icon imgSale = new ImageIcon(getClass().getResource("imagem/sale_banner.jpg"));
