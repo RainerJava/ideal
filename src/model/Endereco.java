@@ -15,6 +15,7 @@ public class Endereco {
     private String numero;
     private String complemento;
     private String referencia;
+    
 
     public String getRua() {
         return rua;
