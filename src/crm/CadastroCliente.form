@@ -81,10 +81,7 @@
                                           <Component id="txtDataNascimento" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="chkAtivo" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="chkAtivo" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
@@ -144,18 +141,20 @@
                   <Component id="chkAtivo" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtDataNascimento" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtNome" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="comboTipoPessoa" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="txtRgOuInscricao" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="comboTipoPessoa" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -249,6 +248,9 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtCPFOuCNPJ">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="try{ &#xd;&#xa;javax.swing.text.MaskFormatter cpf= new javax.swing.text.MaskFormatter(&quot;###.###.###-##&quot;); &#xd;&#xa;txtCPFOuCNPJ = new javax.swing.JFormattedTextField(cpf); &#xd;&#xa;} &#xd;&#xa;catch (Exception e){ &#xd;&#xa;} "/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
@@ -274,6 +276,9 @@
           </StringArray>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="comboTipoPessoaItemStateChanged"/>
+      </Events>
     </Component>
     <Component class="java.awt.Checkbox" name="chkAtivo">
       <Properties>
@@ -357,6 +362,9 @@
     <Component class="javax.swing.JTextField" name="txtRgOuInscricao">
     </Component>
     <Component class="javax.swing.JTextField" name="txtDataNascimento">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="try{ &#xd;&#xa;javax.swing.text.MaskFormatter cpf= new javax.swing.text.MaskFormatter(&quot;##/##/####&quot;); &#xd;&#xa;txtDataNascimento = new javax.swing.JFormattedTextField(cpf); &#xd;&#xa;} &#xd;&#xa;catch (Exception e){ &#xd;&#xa;} "/>
+      </AuxValues>
     </Component>
     <Component class="java.awt.Button" name="btnSalvar">
       <Properties>

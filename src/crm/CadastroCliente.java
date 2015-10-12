@@ -22,14 +22,14 @@ public class CadastroCliente extends javax.swing.JFrame {
      */
     Funcoes funcoes = new Funcoes();
     Cliente cliente = new Cliente();
-    
+
     public CadastroCliente() {
         initComponents();
-        
+
         this.setTitle("Cadastro de Cliente");
         this.setIconImage(new ImageIcon(getClass().getResource("imagem/cliente_icon_48.png")).getImage());
         this.setLocationRelativeTo(null);
-        
+
     }
 
     /**
@@ -47,6 +47,12 @@ public class CadastroCliente extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
         txtCPFOuCNPJ = new javax.swing.JTextField();
+        try{ 
+            javax.swing.text.MaskFormatter cpf= new javax.swing.text.MaskFormatter("###.###.###-##"); 
+            txtCPFOuCNPJ = new javax.swing.JFormattedTextField(cpf); 
+        } 
+        catch (Exception e){ 
+        }
         jLabel5 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -74,6 +80,12 @@ public class CadastroCliente extends javax.swing.JFrame {
         txtEmail = new javax.swing.JTextField();
         txtRgOuInscricao = new javax.swing.JTextField();
         txtDataNascimento = new javax.swing.JTextField();
+        try{ 
+            javax.swing.text.MaskFormatter cpf= new javax.swing.text.MaskFormatter("##/##/####"); 
+            txtDataNascimento = new javax.swing.JFormattedTextField(cpf); 
+        } 
+        catch (Exception e){ 
+        }
         btnSalvar = new java.awt.Button();
         btnCancelar = new java.awt.Button();
         jSeparator2 = new javax.swing.JSeparator();
@@ -106,6 +118,11 @@ public class CadastroCliente extends javax.swing.JFrame {
         jLabel6.setText("Tipo Pessoa:");
 
         comboTipoPessoa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Física", "Jurídica" }));
+        comboTipoPessoa.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboTipoPessoaItemStateChanged(evt);
+            }
+        });
 
         chkAtivo.setLabel("Ativo");
         chkAtivo.setState(true);
@@ -194,9 +211,7 @@ public class CadastroCliente extends javax.swing.JFrame {
                                             .addComponent(txtCPFOuCNPJ)
                                             .addComponent(txtRgOuInscricao)
                                             .addComponent(txtDataNascimento)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(chkAtivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(chkAtivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtEndereco)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -239,17 +254,18 @@ public class CadastroCliente extends javax.swing.JFrame {
                         .addComponent(jLabel5))
                     .addComponent(chkAtivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel6)
-                    .addComponent(comboTipoPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtRgOuInscricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtRgOuInscricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel6)
+                        .addComponent(comboTipoPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
@@ -320,6 +336,20 @@ public class CadastroCliente extends javax.swing.JFrame {
         salvar();
     }//GEN-LAST:event_btnSalvarMouseClicked
 
+    private void comboTipoPessoaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboTipoPessoaItemStateChanged
+        // TODO add your handling code here:
+        try {
+            if (comboTipoPessoa.getSelectedItem().toString().equals("Física")) {
+                javax.swing.text.MaskFormatter cpf = new javax.swing.text.MaskFormatter("###.###.###-##");
+                this.txtCPFOuCNPJ = new javax.swing.JFormattedTextField(cpf);
+            } else {
+                javax.swing.text.MaskFormatter cnpj = new javax.swing.text.MaskFormatter("##.###.###/####-##");
+                this.txtCPFOuCNPJ = new javax.swing.JFormattedTextField(cnpj);
+            }
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_comboTipoPessoaItemStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -354,7 +384,7 @@ public class CadastroCliente extends javax.swing.JFrame {
             }
         });
     }
-    
+
     private void carregarRegistro() {
         if (cliente != null || cliente.getId() > 0) {
             this.txtBairro.setText(cliente.getEndereco().getBairro());
@@ -379,11 +409,11 @@ public class CadastroCliente extends javax.swing.JFrame {
             this.txtUF.setText(cliente.getEndereco().getNumero());
         }
     }
-    
+
     private void salvar() {
-        
+
         Endereco endereco = new Endereco();
-        
+
         Cliente cliente = new Cliente(
                 this.txtCodigo.getText().trim(),
                 this.txtNome.getText().trim(),
@@ -398,13 +428,13 @@ public class CadastroCliente extends javax.swing.JFrame {
                 this.txtEmail.getText().trim(),
                 this.chkAtivo.getState(),
                 endereco);
-        
+
         System.out.println(cliente.getNome());
         System.out.println(cliente.getCpf());
         System.out.println(cliente.getRg());
         System.out.println(cliente.getCelular());
         System.out.println(cliente.getEmail());
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
