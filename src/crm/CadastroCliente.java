@@ -5,8 +5,12 @@
  */
 package crm;
 
+import DAO.ClienteDAO;
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.util.Date;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import model.Cliente;
 import model.Endereco;
 import util.Funcoes;
@@ -22,14 +26,14 @@ public class CadastroCliente extends javax.swing.JFrame {
      */
     Funcoes funcoes = new Funcoes();
     Cliente cliente = new Cliente();
-
+    
     public CadastroCliente() {
         initComponents();
-
+        
         this.setTitle("Cadastro de Cliente");
         this.setIconImage(new ImageIcon(getClass().getResource("imagem/cliente_icon_48.png")).getImage());
         this.setLocationRelativeTo(null);
-
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -161,6 +165,11 @@ public class CadastroCliente extends javax.swing.JFrame {
         });
 
         btnCancelar.setLabel("Cancelar");
+        btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -350,6 +359,11 @@ public class CadastroCliente extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_comboTipoPessoaItemStateChanged
 
+    private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_btnCancelarMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -384,7 +398,7 @@ public class CadastroCliente extends javax.swing.JFrame {
             }
         });
     }
-
+    
     private void carregarRegistro() {
         if (cliente != null || cliente.getId() > 0) {
             this.txtBairro.setText(cliente.getEndereco().getBairro());
@@ -409,33 +423,45 @@ public class CadastroCliente extends javax.swing.JFrame {
             this.txtUF.setText(cliente.getEndereco().getNumero());
         }
     }
-
+    
     private void salvar() {
-
-        Endereco endereco = new Endereco();
-
-        Cliente cliente = new Cliente(
-                this.txtCodigo.getText().trim(),
-                this.txtNome.getText().trim(),
-                0,
-                this.txtRgOuInscricao.getText().trim(),
-                this.txtCPFOuCNPJ.getText().trim(),
-                this.txtRgOuInscricao.getText().trim(),
-                this.txtCPFOuCNPJ.getText().trim(),
-                funcoes.transformarStringEmData(this.txtDataNascimento.getText()),
-                this.txtTelefone.getText().trim(),
-                this.txtCelular.getText().trim(),
-                this.txtEmail.getText().trim(),
-                this.chkAtivo.getState(),
-                endereco);
-
-        System.out.println(cliente.getNome());
-        System.out.println(cliente.getCpf());
-        System.out.println(cliente.getRg());
-        System.out.println(cliente.getCelular());
-        System.out.println(cliente.getEmail());
-
+        String ret = validarCampos();
+        if (ret.isEmpty()) {
+            Endereco endereco = new Endereco();
+            
+            Cliente cliente = new Cliente(
+                    this.txtCodigo.getText().trim(),
+                    this.txtNome.getText().trim(),
+                    0,
+                    this.txtRgOuInscricao.getText().trim(),
+                    this.txtCPFOuCNPJ.getText().trim(),
+                    this.txtRgOuInscricao.getText().trim(),
+                    this.txtCPFOuCNPJ.getText().trim(),
+                    funcoes.transformarStringEmData(this.txtDataNascimento.getText()),
+                    this.txtTelefone.getText().trim(),
+                    this.txtCelular.getText().trim(),
+                    this.txtEmail.getText().trim(),
+                    this.chkAtivo.getState(),
+                    endereco);
+            
+            ClienteDAO clienteDAO = new ClienteDAO();
+            clienteDAO.Inserir(cliente);
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "Os seguintes campos são de preenchimento obrigatório: \n\n"
+                    +ret, "Atenção!", WIDTH);
+        }
     }
+    
+    private String validarCampos() {
+        String ret = "";
+        if (this.txtNome.getText().toString().isEmpty()) {
+            ret = ret + "Nome; \n";
+        }
+        
+        return ret;
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button btnCancelar;

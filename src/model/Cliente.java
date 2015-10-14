@@ -27,7 +27,6 @@ public class Cliente {
     private String celular;
     private String email;
     private boolean ativo;
-
     private Endereco endereco;
 
     public Cliente(int id, String codigo, String nome, int tipo_pessoa, String rg, String cpf, String inscricao_estadual, String cnpj, Date data_nascimento, String telefone, String celular, String email, boolean ativo, Endereco enderecos) {

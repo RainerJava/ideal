@@ -12,15 +12,17 @@ public class Conexao {
     } //Possibilita instancias
     public static Connection con = null;
 
-    public static void Conectar() {
+    public static Connection Conectar() {
         System.out.println("Conectando ao banco...");
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://dbmy0063.whservidor.com:3306/agropecuar63", "agropecuar63", "9I5MCFIM3F");
+            con = DriverManager.getConnection("jdbc:mysql://ideal10.mysql.uhserver.com:3306/ideal10", "tiagoadmin", "@sharkweb10");
             System.out.println("Conectado.");
+            return con;
         } catch (ClassNotFoundException ex) {
             System.out.println("Classe não encontrada, adicione o driver nas bibliotecas.");
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         } catch (SQLException e) {
             System.out.println(e);
             throw new RuntimeException(e);
