@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,10 +13,17 @@ import java.util.List;
  * @author Jorge
  */
 public class Cliente {
-    
+
     private int id;
+    private String codigo;
     private String nome;
-    private List<Endereco> enderecos;
+    private String telefone;
+    private String endereco;
+    private String cidade;
+    private String celular;
+    private String email;
+    private Date data_nascimento;
+    private int promo;
 
     public int getId() {
         return id;
@@ -23,6 +31,14 @@ public class Cliente {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public String getNome() {
@@ -33,14 +49,62 @@ public class Cliente {
         this.nome = nome;
     }
 
-    public List<Endereco> getEnderecos() {
-        return enderecos;
+    public String getTelefone() {
+        return telefone;
     }
 
-    public void setEnderecos(List<Endereco> enderecos) {
-        this.enderecos = enderecos;
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
-    
-    
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Date getData_nascimento() {
+        return data_nascimento;
+    }
+
+    public void setData_nascimento(Date data_nascimento) {
+        this.data_nascimento = data_nascimento;
+    }
+
+    public int getPromo() {
+        return promo;
+    }
+
+    public void setPromo(int promo) {
+        this.promo = promo;
+    }
+
+
     
 }

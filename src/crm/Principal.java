@@ -32,31 +32,32 @@ public class Principal extends javax.swing.JFrame {
         
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
-
+        
         JMenu menuCadastros = new JMenu("Cadastros");
         JMenu menuPesquisas = new JMenu("Pesquisas");
         menuBar.add(menuCadastros);
         menuBar.add(menuPesquisas);
-
+        
         JMenuItem cadProdutos = new JMenuItem("Produtos");
         JMenuItem cadClientes = new JMenuItem("Clientes");
-        JMenuItem conexao = new JMenuItem("Conexao");
-
+        
         menuCadastros.add(cadProdutos);
         menuCadastros.add(cadClientes);
-        menuCadastros.add(conexao);
+        
+        JMenuItem pesqClientes = new JMenuItem("Clientes");
+        menuPesquisas.add(pesqClientes);
+        
         cadClientes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                new CadastroCliente().setVisible(true);
+                new CadastroCliente(null).setVisible(true);
             }
         });
-
-        conexao.addActionListener(new ActionListener() {
+        
+        pesqClientes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                Conexao conex = new Conexao();
-                conex.Conectar();
+                new PesquisaCliente().setVisible(true);
             }
         });
     }
