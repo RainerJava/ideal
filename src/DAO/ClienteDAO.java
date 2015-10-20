@@ -12,6 +12,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -24,106 +25,189 @@ import util.Funcoes;
  */
 public class ClienteDAO {
 
-    Funcoes funcoes = new Funcoes();
+    private final Logger log = Logger.getLogger(ClienteDAO.class.getName());
 
-    public ClienteDAO() {
-    }
+    private final String TABELA = "clientes";
+    private final String ID = "id";
+    private final String CODIGO = "codigo";
+    private final String NOME = "nome";
+    private final String FONE = "telefone";
+    private final String ENDEREÇO = "endereco";
+    private final String CIDADE = "cidade";
+    private final String CEL = "celular";
+    private final String EMAIL = "email";
+    private final String DATA_NASCIMENTO = "data_nascimento";
+    private final String PROMO = "promo";
 
-    public void Inserir(Cliente cliente) {
+    private final String SELECT_ALL = String.format("SELECT * FROM %s ", TABELA);
 
-        String sql = "INSERT INTO cliente(codigo,"
-                + " nome, "
-                + "tipo_pessoa, "
-                + "rg, "
-                + "cpf, "
-                + "inscricao_estadual, "
-                + "cnpj, "
-                + "data_nascimento, "
-                + "telefone, "
-                + "celular, "
-                + "email, "
-                + "ativo, "
-                + "id_endereco) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    private final Funcoes funcoes = new Funcoes();
+    private Connection conexao;
 
-        Conexao conex = new Conexao();
-        Connection conexaoRet = conex.Conectar();
-        if (conexaoRet != null) {
+    public void inserirCliente(Cliente cliente) throws RuntimeException, SQLException {
+
+        StringBuilder campos = new StringBuilder();
+        campos.append(CODIGO).append(",");
+        campos.append(NOME).append(",");
+        campos.append(FONE).append(",");
+        campos.append(ENDEREÇO).append(",");
+        campos.append(CIDADE).append(",");
+        campos.append(CEL).append(",");
+        campos.append(EMAIL).append(",");
+        campos.append(DATA_NASCIMENTO).append(",");
+        campos.append(PROMO);
+
+        String sql = String.format("INSERT INTO %s ( %s ) VALUES (?,?,?,?,?,?,?,?,?)", TABELA, campos.toString());
+        conectar();
+        if (conexao != null) {
             try {
-                java.sql.PreparedStatement stmt = conexaoRet.prepareStatement(sql);
+                java.sql.PreparedStatement stmt = conexao.prepareStatement(sql);
                 if (stmt.getConnection() != null) {
-
                     java.sql.Date dataSql = null;
 
-                    if (cliente.getData_nascimento() != null) {
-                        java.util.Date dataUtil = cliente.getData_nascimento();
-                        dataSql = new java.sql.Date(dataUtil.getTime());
-                    }
-
                     stmt.setString(1, cliente.getCodigo());
-                    stmt.setString(2, cliente.getNome());
-                    stmt.setInt(3, cliente.getTipo_pessoa());
-                    stmt.setString(4, cliente.getRg());
-                    stmt.setString(5, cliente.getCpf());
-                    stmt.setString(6, cliente.getInscricao_estadual());
-                    stmt.setString(7, cliente.getCnpj());
-                    stmt.setDate(8, dataSql);
-                    stmt.setString(9, cliente.getTelefone());
-                    stmt.setString(10, cliente.getCelular());
-                    stmt.setString(11, cliente.getEmail());
-                    stmt.setBoolean(12, cliente.getAtivo());
-                    stmt.setInt(13, 0);
+                    stmt.setString(2, cliente.getNome()); 
+                    stmt.setString(3, cliente.getTelefone());
+                    stmt.setString(4, cliente.getEndereco());
+                    stmt.setString(5, cliente.getCidade());
+                    stmt.setString(6, cliente.getCelular());
+                    stmt.setString(7, cliente.getEmail());
+                    stmt.setDate(8, funcoes.convertFromJAVADateToSQLDate(cliente.getData_nascimento()));
+                    stmt.setInt(9, cliente.getPromo());
                 }
 
                 boolean ret = stmt.execute(); //executa comando     
                 if (!ret) {
                 }
                 stmt.close();
-
             } catch (SQLException u) {
-                throw new RuntimeException(u);
+                JOptionPane.showMessageDialog(null, "Sem conexão com internet.", "Atenção!", WIDTH);
             }
-        } else {
-            //SEM CONEXÃO
-            JOptionPane.showMessageDialog(null, "Sem conexão com internet.", "Atenção!", WIDTH);
         }
-
     }
 
-    public ArrayList<Cliente> Buscar() {
-        ArrayList<Cliente> clientes = new ArrayList<>();
-        Conexao conex = new Conexao();
-        Connection conexaoRet = conex.Conectar();
-        if (conexaoRet != null) {
-            String query = "SELECT * FROM cliente";
+    public boolean updateCliente(Cliente cliente) {
+        conectar();
+        if (conexao != null) {
             java.sql.PreparedStatement stmt;
             try {
-                stmt = conexaoRet.prepareStatement(query);
-                ResultSet rs = stmt.executeQuery(query);
-                while (rs.next()) {
-                    int id = rs.getInt("id");
-                    String codigo = rs.getString("codigo").trim();
-                    String nome = rs.getString("nome").trim();
-                    int tipo_pessoa = rs.getInt("tipo_pessoa");
-                    String rg = rs.getString("rg").trim();
-                    String cpf = rs.getString("cpf").trim();
-                    String inscricao_estadual = rs.getString("inscricao_estadual").trim();
-                    String cnpj = rs.getString("cnpj").trim();
-                    String telefone = rs.getString("telefone");
-                    String celular = rs.getString("celular");
-                    String email = rs.getString("email");
-                    boolean ativo = rs.getBoolean("ativo");
-                    int id_endereco = rs.getInt("id_endereco");
-
-                    Cliente cliente = new Cliente(id,codigo, nome, tipo_pessoa, rg, cpf, inscricao_estadual, cnpj, null, telefone, celular, email, ativo, null);
-                    clientes.add(cliente);
-                }
-                return clientes;
+                StringBuilder query = new StringBuilder();
+                query.append(String.format("UPDATE %s SET ", TABELA));
+                query.append(String.format(" %s = ?,", NOME));
+                query.append(String.format(" %s = ?,", FONE));
+                query.append(String.format(" %s = ?,", ENDEREÇO));
+                query.append(String.format(" %s = ?,", CIDADE));
+                query.append(String.format(" %s = ?,", CEL));
+                query.append(String.format(" %s = ? ", EMAIL));
+                query.append(String.format(" %s = ?,", DATA_NASCIMENTO));
+                query.append(String.format(" %s = ?,", PROMO));
+                query.append(String.format(" WHERE %s = ?", CODIGO));
+                stmt = conexao.prepareStatement(query.toString());
+                stmt.setString(1, cliente.getNome());
+                stmt.setString(2, cliente.getTelefone());
+                stmt.setString(3, cliente.getEndereco());
+                stmt.setString(4, cliente.getCidade());
+                stmt.setString(5, cliente.getCelular());
+                stmt.setString(6, cliente.getEmail());
+                stmt.setDate(7, funcoes.convertFromJAVADateToSQLDate(cliente.getData_nascimento()));
+                stmt.setInt(8, cliente.getPromo());
+                stmt.setString(9, cliente.getCodigo());
+                ResultSet rs = stmt.executeQuery(query.toString());
+                return rs.first();
             } catch (SQLException ex) {
-                Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+                log.log(Level.SEVERE, null, ex);
+            }
+        } else {
+            return false;
+        }
+        return false;
+    }
+
+    public Collection<Cliente> getClienteByCodigo(String codigo) {
+        conectar();
+        if (conexao != null) {
+            java.sql.PreparedStatement stmt;
+            try {
+                StringBuilder query = new StringBuilder();
+                query.append(SELECT_ALL).append(String.format(" WHERE %s = ?", CODIGO));
+                stmt = conexao.prepareStatement(query.toString());
+                stmt.setString(1, codigo);
+                ResultSet rs = stmt.executeQuery(query.toString());
+                return resultSetToCollection(rs);
+            } catch (SQLException ex) {
+                log.log(Level.SEVERE, null, ex);
             }
         } else {
             return null;
         }
         return null;
+    }
+
+    public Collection<Cliente> getClienteById(Integer id) {
+        conectar();
+        if (conexao != null) {
+            java.sql.PreparedStatement stmt;
+            try {
+                StringBuilder query = new StringBuilder();
+                query.append(SELECT_ALL).append(String.format(" WHERE %s = ?", ID));
+                stmt = conexao.prepareStatement(query.toString());
+                stmt.setInt(1, id);
+                ResultSet rs = stmt.executeQuery(query.toString());
+                return resultSetToCollection(rs);
+            } catch (SQLException ex) {
+                log.log(Level.SEVERE, null, ex);
+            }
+        } else {
+            return null;
+        }
+        return null;
+    }
+
+    public Collection<Cliente> getAllClientes() {
+        conectar();
+        if (conexao != null) {
+            java.sql.PreparedStatement stmt;
+            try {
+                stmt = conexao.prepareStatement(SELECT_ALL);
+                ResultSet rs = stmt.executeQuery(SELECT_ALL);
+                return resultSetToCollection(rs);
+            } catch (SQLException ex) {
+                log.log(Level.SEVERE, null, ex);
+            }
+        } else {
+            return null;
+        }
+        return null;
+    }
+
+    private void conectar() {
+        try {
+            conexao = Conexao.Conectar();
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(null, "Sem conexão com internet.", "Atenção!", WIDTH);
+        }
+    }
+
+    private Collection<Cliente> resultSetToCollection(ResultSet rs) {
+        Collection<Cliente> clientes = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                Cliente cliente = new Cliente();
+                cliente.setId(rs.getInt(ID));
+                cliente.setCodigo(rs.getString(CODIGO).trim());
+                cliente.setNome(rs.getString(NOME).trim());
+                cliente.setEndereco(rs.getString(ENDEREÇO));
+                cliente.setCidade(rs.getString(CIDADE));
+                cliente.setData_nascimento(rs.getDate(DATA_NASCIMENTO));
+                cliente.setTelefone(rs.getString(FONE).trim());
+                cliente.setCelular(rs.getString(CEL).trim());
+                cliente.setEmail(rs.getString(EMAIL).trim());
+                cliente.setPromo(rs.getInt(PROMO));
+                clientes.add(cliente);
+            }
+        } catch (SQLException e) {
+            log.log(Level.SEVERE, null, e.getMessage());
+        }
+        return clientes;
     }
 }

@@ -5,6 +5,9 @@
  */
 package service;
 
+import DAO.ClienteDAO;
+import java.sql.SQLException;
+import java.util.Collection;
 import model.Cliente;
 
 /**
@@ -13,8 +16,26 @@ import model.Cliente;
  */
 public class ClienteService {
     
-    public Cliente getClienteById(){
-        return null;
+    ClienteDAO clienteDAO = new ClienteDAO();
+    
+    public void addCliente(Cliente cliente) throws RuntimeException, SQLException{
+        clienteDAO.inserirCliente(cliente);
+    }
+    
+    public Collection<Cliente> getClienteById(int id){
+        return clienteDAO.getClienteById(id);
+    }
+    
+    public Collection<Cliente> getClienteByCode(String code){
+        return clienteDAO.getClienteByCodigo(code);
+    }
+    
+    public boolean updateCliente(Cliente cliente){
+        return clienteDAO.updateCliente(cliente);
+    }
+    
+    public Collection<Cliente> getAllClientes(){
+        return clienteDAO.getAllClientes();
     }
     
 }

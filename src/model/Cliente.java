@@ -17,53 +17,13 @@ public class Cliente {
     private int id;
     private String codigo;
     private String nome;
-    private int tipo_pessoa;
-    private String rg;
-    private String cpf;
-    private String inscricao_estadual;
-    private String cnpj;
-    private Date data_nascimento;
     private String telefone;
+    private String endereco;
+    private String cidade;
     private String celular;
     private String email;
-    private boolean ativo;
-    private Endereco endereco;
-
-    public Cliente(int id, String codigo, String nome, int tipo_pessoa, String rg, String cpf, String inscricao_estadual, String cnpj, Date data_nascimento, String telefone, String celular, String email, boolean ativo, Endereco enderecos) {
-        this.id = id;
-        this.codigo = codigo;
-        this.nome = nome;
-        this.tipo_pessoa = tipo_pessoa;
-        this.rg = rg;
-        this.cpf = cpf;
-        this.inscricao_estadual = inscricao_estadual;
-        this.cnpj = cnpj;
-        this.data_nascimento = data_nascimento;
-        this.telefone = telefone;
-        this.celular = celular;
-        this.email = email;
-        this.endereco = enderecos;
-        this.ativo = ativo;
-    }
-
-    public Cliente(String codigo, String nome, int tipo_pessoa, String rg, String cpf, String inscricao_estadual, String cnpj, Date data_nascimento, String telefone, String celular, String email, boolean ativo, Endereco enderecos) {
-        this.codigo = codigo;
-        this.nome = nome;
-        this.tipo_pessoa = tipo_pessoa;
-        this.rg = rg;
-        this.cpf = cpf;
-        this.inscricao_estadual = inscricao_estadual;
-        this.cnpj = cnpj;
-        this.data_nascimento = data_nascimento;
-        this.telefone = telefone;
-        this.celular = celular;
-        this.email = email;
-        this.endereco = enderecos;
-        this.ativo = ativo;
-    }
-
-    public Cliente() {
-    }
+    private Date data_nascimento;
+    private int promo;
 
     public int getId() {
         return id;
@@ -71,22 +31,6 @@ public class Cliente {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public Endereco getEnderecos() {
-        return endereco;
-    }
-
-    public void setEnderecos(Endereco enderecos) {
-        this.endereco = enderecos;
     }
 
     public String getCodigo() {
@@ -97,52 +41,12 @@ public class Cliente {
         this.codigo = codigo;
     }
 
-    public int getTipo_pessoa() {
-        return tipo_pessoa;
+    public String getNome() {
+        return nome;
     }
 
-    public void setTipo_pessoa(int tipo_pessoa) {
-        this.tipo_pessoa = tipo_pessoa;
-    }
-
-    public String getRg() {
-        return rg;
-    }
-
-    public void setRg(String rg) {
-        this.rg = rg;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getInscricao_estadual() {
-        return inscricao_estadual;
-    }
-
-    public void setInscricao_estadual(String inscricao_estadual) {
-        this.inscricao_estadual = inscricao_estadual;
-    }
-
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
-
-    public Date getData_nascimento() {
-        return data_nascimento;
-    }
-
-    public void setData_nascimento(Date data_nascimento) {
-        this.data_nascimento = data_nascimento;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getTelefone() {
@@ -151,6 +55,22 @@ public class Cliente {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
     }
 
     public String getCelular() {
@@ -169,20 +89,22 @@ public class Cliente {
         this.email = email;
     }
 
-    public boolean getAtivo() {
-        return ativo;
+    public Date getData_nascimento() {
+        return data_nascimento;
     }
 
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
+    public void setData_nascimento(Date data_nascimento) {
+        this.data_nascimento = data_nascimento;
     }
 
-    public Endereco getEndereco() {
-        return endereco;
+    public int getPromo() {
+        return promo;
     }
 
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
+    public void setPromo(int promo) {
+        this.promo = promo;
     }
 
+
+    
 }
