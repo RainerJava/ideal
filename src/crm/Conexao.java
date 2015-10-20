@@ -10,6 +10,7 @@ public class Conexao {
 
     public Conexao() {
     } //Possibilita instancias
+    
     public static Connection con = null;
 
     public static Connection Conectar() {

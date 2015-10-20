@@ -50,7 +50,7 @@ public class Principal extends javax.swing.JFrame {
         cadClientes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                new CadastroCliente().setVisible(true);
+                new CadastroCliente(null).setVisible(true);
             }
         });
         
