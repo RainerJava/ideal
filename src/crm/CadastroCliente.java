@@ -11,6 +11,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -28,6 +30,7 @@ public class CadastroCliente extends javax.swing.JFrame {
     /**
      * Creates new form CadastroCliente
      */
+    boolean modoUpdate = false;
     ClienteService clienteService = new ClienteService();
     Funcoes funcoes = new Funcoes();
     Cliente cliente;
@@ -37,7 +40,9 @@ public class CadastroCliente extends javax.swing.JFrame {
         if (codigo == null) {
             cliente = new Cliente();
         } else {
-            cliente = (Cliente) clienteService.getClienteByCode(codigo).toArray()[0];
+            cliente = (Cliente) clienteService.getClienteById(Integer.valueOf(codigo)).toArray()[0];
+            objectToTela();
+            modoUpdate = true;
         }
 
         this.setTitle("Cadastro de Cliente");
@@ -192,9 +197,7 @@ public class CadastroCliente extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtCelular)
-                                .addGap(57, 57, 57)
-                                .addGap(57, 57, 57)
-                                .addGap(javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE))
+                                .addGap(114, 114, 114))
                             .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -258,8 +261,15 @@ public class CadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCidadeActionPerformed
 
     private void btnSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMouseClicked
-        // TODO add your handling code here:
-        salvar();
+        try {
+            if (modoUpdate) {
+                atualizar();
+            } else {
+                salvar();
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(CadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnSalvarMouseClicked
 
     private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
@@ -340,6 +350,25 @@ public class CadastroCliente extends javax.swing.JFrame {
                     + ret, "Atenção!", WIDTH);
         }
     }
+    
+    private void atualizar() throws ParseException {
+        String ret = validarCampos();
+        if (ret.isEmpty()) {
+            try {
+                telaToObject();
+                clienteService.updateCliente(cliente);
+            } catch (RuntimeException e) {
+                System.out.println(e.getMessage());
+                JOptionPane.showMessageDialog(null, "Não foi possível concluir a ação!", "Atenção!", WIDTH);
+            } catch (ParseException e) {
+                System.out.println(e.getMessage());
+                JOptionPane.showMessageDialog(null, "Não foi possível concluir a ação!", "Atenção!", WIDTH);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Os seguintes campos são de preenchimento obrigatório: \n\n"
+                    + ret, "Atenção!", WIDTH);
+        }
+    }
 
     private String validarCampos() {
         String ret = "";
@@ -351,7 +380,7 @@ public class CadastroCliente extends javax.swing.JFrame {
     }
 
     private void telaToObject() throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
         cliente.setCelular(this.txtCelular.getText().trim());
         cliente.setCodigo(this.txtCodigo.getText().trim());
         cliente.setData_nascimento(sdf.parse(this.txtDataNascimento.getText()));

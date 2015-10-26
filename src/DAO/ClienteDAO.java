@@ -80,6 +80,9 @@ public class ClienteDAO {
                 if (!ret) {
                 }
                 stmt.close();
+                
+                JOptionPane.showMessageDialog(null, "Cliente inserido!", "Sucesso", WIDTH);
+
             } catch (SQLException u) {
                 JOptionPane.showMessageDialog(null, "Sem conexão com internet.", "Atenção!", WIDTH);
             }
@@ -129,9 +132,11 @@ public class ClienteDAO {
             java.sql.PreparedStatement stmt;
             try {
                 StringBuilder query = new StringBuilder();
-                query.append(SELECT_ALL).append(String.format(" WHERE %s = ?", CODIGO));
+                query.append(String.format("SELECT * FROM %s ", TABELA));
+                query.append(String.format(" WHERE %s = '%s' ", CODIGO, codigo));
                 stmt = conexao.prepareStatement(query.toString());
-                stmt.setString(1, codigo);
+                //stmt.setString(1, codigo);
+                log.info(query.toString());
                 ResultSet rs = stmt.executeQuery(query.toString());
                 return resultSetToCollection(rs);
             } catch (SQLException ex) {
@@ -149,14 +154,12 @@ public class ClienteDAO {
             java.sql.PreparedStatement stmt;
             try {
                 StringBuilder query = new StringBuilder();
-                query.append(SELECT_ALL).append(String.format(" WHERE %s = ?", ID));
+                query.append(SELECT_ALL).append(String.format(" WHERE %s = %s", ID, id));
                 stmt = conexao.prepareStatement(query.toString());
-                stmt.setInt(1, id);
                 ResultSet rs = stmt.executeQuery(query.toString());
                 return resultSetToCollection(rs);
             } catch (SQLException ex) {
-                log.log(Level.SEVERE, null, ex);
-            }
+                log.log(Level.SEVERE, null, ex);            }
         } else {
             return null;
         }
