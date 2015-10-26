@@ -74,9 +74,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="txtCelular" max="32767" attributes="0"/>
-                              <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
-                              <EmptySpace min="57" pref="57" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="-2147483648" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
                           </Group>
                           <Component id="txtEmail" alignment="0" min="-2" pref="207" max="-2" attributes="0"/>
                           <Component id="txtCidade" min="-2" pref="186" max="-2" attributes="0"/>
