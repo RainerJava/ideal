@@ -50,10 +50,10 @@ public class Funcoes {
                 break;
 
             case 2:
-                ret = "Pague 1 leve 2";
+                ret = "Junte e Ganhe";
                 break;
             case 3:
-                ret = "Junte e ganhe";
+                ret = "Pague 1 Leve 2";
                 break;
             case 4:
                 ret = "Combos";
