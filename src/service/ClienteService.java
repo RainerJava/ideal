@@ -8,6 +8,7 @@ package service;
 import DAO.ClienteDAO;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.HashMap;
 import model.Cliente;
 
 /**
@@ -36,6 +37,10 @@ public class ClienteService {
     
     public Collection<Cliente> getAllClientes(){
         return clienteDAO.getAllClientes();
+    }
+    
+    public Collection<Cliente> getClientes(HashMap filtro){
+        return clienteDAO.getClientes(filtro);
     }
     
 }

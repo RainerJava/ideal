@@ -6,6 +6,7 @@
 package crm;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -14,6 +15,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Cliente;
 import service.ClienteService;
+import util.Funcoes;
 
 /**
  *
@@ -25,7 +27,7 @@ public class PesquisaCliente extends javax.swing.JFrame {
      * Creates new form PesquisaCliente
      */
     private final Logger log = Logger.getLogger(PesquisaCliente.class.getName());
-
+    private final Funcoes funcoes = new Funcoes();
     ClienteService clienteService = new ClienteService();
 
     public PesquisaCliente() {
@@ -54,15 +56,8 @@ public class PesquisaCliente extends javax.swing.JFrame {
         tableClientes = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         btnPesquisar = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        txtNome = new javax.swing.JTextField();
         txtDataNascimento = new javax.swing.JTextField();
-        try{ 
-            javax.swing.text.MaskFormatter cpf= new javax.swing.text.MaskFormatter("##/##/####"); 
-            txtDataNascimento = new javax.swing.JFormattedTextField(cpf); 
-        } 
-        catch (Exception e){ 
-        }
-        txtDataNascimento1 = new javax.swing.JTextField();
         try{ 
             javax.swing.text.MaskFormatter cpf= new javax.swing.text.MaskFormatter("##/##/####"); 
             txtDataNascimento = new javax.swing.JFormattedTextField(cpf); 
@@ -73,6 +68,17 @@ public class PesquisaCliente extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox();
+        txtCelular = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        txtDataNascimento2 = new javax.swing.JTextField();
+        try{ 
+            javax.swing.text.MaskFormatter cpf= new javax.swing.text.MaskFormatter("##/##/####"); 
+            txtDataNascimento = new javax.swing.JFormattedTextField(cpf); 
+        } 
+        catch (Exception e){ 
+        }
+        txtEmails = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -103,15 +109,17 @@ public class PesquisaCliente extends javax.swing.JFrame {
             }
         });
 
-        jTextField1.setText("jTextField1");
-
         jLabel2.setText("Data Nascimento:");
 
         jLabel3.setText("até");
 
-        jLabel4.setText("jLabel4");
+        jLabel4.setText("Promo:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Descontos", "Junte e Ganhe", "Pague 1 Leve 2", "Combos" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1. Descontos", "2. Junte e Ganhe", "3. Pague 1 Leve 2", "4. Combos" }));
+
+        jLabel5.setText("Celular:");
+
+        jLabel6.setText("Emails Pesquisados:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -120,27 +128,37 @@ public class PesquisaCliente extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtEmails, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtDataNascimento1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTextField1))
+                                .addComponent(txtDataNascimento2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                        .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel6)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -151,19 +169,25 @@ public class PesquisaCliente extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4)
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDataNascimento1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3)))
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel5)
+                            .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDataNascimento2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel6)
+                .addGap(2, 2, 2)
+                .addComponent(txtEmails, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
@@ -171,6 +195,31 @@ public class PesquisaCliente extends javax.swing.JFrame {
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         // TODO add your handling code here:
+
+        final DefaultTableModel modeloTable = new DefaultTableModel();
+        modeloTable.addColumn("ID");
+        modeloTable.addColumn("Nome");
+        modeloTable.addColumn("Telefone");
+        modeloTable.addColumn("Celular");
+        modeloTable.addColumn("Email");
+        modeloTable.addColumn("Promoção");
+
+        ArrayList<Cliente> clientes = (ArrayList) clienteService.getClientes(montarFiltro());
+        StringBuilder sb = new StringBuilder();
+        if (clientes != null) {
+            this.txtEmails.setText("");
+            for (Cliente c : clientes) {
+                if (!c.getEmail().isEmpty()) {
+                    sb.delete(0, sb.length());
+                    sb.append(this.txtEmails.getText()).append(String.format(" '%s', ", c.getEmail()));
+                    this.txtEmails.setText(sb.toString());
+                }
+                modeloTable.addRow(new Object[]{c.getId(),
+                    c.getNome(), c.getTelefone(), c.getCelular(), c.getEmail(), funcoes.translatePromo(c.getPromo())});
+            }
+        }
+
+        this.tableClientes.setModel(modeloTable);
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void tableClientesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableClientesMousePressed
@@ -179,7 +228,6 @@ public class PesquisaCliente extends javax.swing.JFrame {
         if (evt.getClickCount() == 2) {
             String idCliente = (String) this.tableClientes.getModel().getValueAt(this.tableClientes.getSelectedRow(), 0).toString();
             log.info(idCliente);
-            //codigoCliente = "001";
             new CadastroCliente(idCliente).setVisible(Boolean.TRUE);
         }
     }//GEN-LAST:event_tableClientesMousePressed
@@ -222,21 +270,42 @@ public class PesquisaCliente extends javax.swing.JFrame {
     private void buscarClientes() {
         final DefaultTableModel modeloTable = new DefaultTableModel();
         modeloTable.addColumn("ID");
-        modeloTable.addColumn("Código");
         modeloTable.addColumn("Nome");
+        modeloTable.addColumn("Telefone");
         modeloTable.addColumn("Celular");
-        modeloTable.addColumn("CPF");
+        modeloTable.addColumn("Email");
+        modeloTable.addColumn("Promoção");
 
         ArrayList<Cliente> clientes = (ArrayList) clienteService.getAllClientes();
         if (clientes != null) {
             for (Cliente c : clientes) {
                 modeloTable.addRow(new Object[]{c.getId(),
-                    c.getNome(), c.getCelular(), c.getCidade()});
+                    c.getNome(), c.getTelefone(), c.getCelular(), c.getEmail(), funcoes.translatePromo(c.getPromo())});
             }
         }
 
         this.tableClientes.setModel(modeloTable);
         //his.add(new JScrollPane(tableClientes)); //Aqui 
+    }
+
+    private HashMap montarFiltro() {
+
+        HashMap filtro = new HashMap();
+
+        if (!this.txtNome.getText().isEmpty()) {
+            filtro.put("nome", this.txtNome.getText());
+        }
+        if (!this.txtCelular.getText().isEmpty()) {
+            filtro.put("celular", this.txtCelular.getText());
+        }
+        if (!this.txtDataNascimento.getText().isEmpty()) {
+            filtro.put("data1", this.txtDataNascimento.getText());
+        }
+        if (!this.txtDataNascimento2.getText().isEmpty()) {
+            filtro.put("data2", this.txtDataNascimento2.getText());
+        }
+
+        return filtro;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -248,10 +317,14 @@ public class PesquisaCliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tableClientes;
+    private javax.swing.JTextField txtCelular;
     private javax.swing.JTextField txtDataNascimento;
-    private javax.swing.JTextField txtDataNascimento1;
+    private javax.swing.JTextField txtDataNascimento2;
+    private javax.swing.JTextField txtEmails;
+    private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
 }

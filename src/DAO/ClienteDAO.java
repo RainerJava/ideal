@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -66,7 +67,7 @@ public class ClienteDAO {
                     java.sql.Date dataSql = null;
 
                     stmt.setString(1, cliente.getCodigo());
-                    stmt.setString(2, cliente.getNome()); 
+                    stmt.setString(2, cliente.getNome());
                     stmt.setString(3, cliente.getTelefone());
                     stmt.setString(4, cliente.getEndereco());
                     stmt.setString(5, cliente.getCidade());
@@ -80,7 +81,7 @@ public class ClienteDAO {
                 if (!ret) {
                 }
                 stmt.close();
-                
+
                 JOptionPane.showMessageDialog(null, "Cliente inserido!", "Sucesso", WIDTH);
 
             } catch (SQLException u) {
@@ -126,6 +127,47 @@ public class ClienteDAO {
         return false;
     }
 
+    public Collection<Cliente> getClientes(HashMap filtro) {
+        conectar();
+        if (conexao != null) {
+            java.sql.PreparedStatement stmt;
+            try {
+                StringBuilder query = new StringBuilder();
+                query.append(String.format("SELECT * FROM %s ", TABELA));
+                
+                if (!filtro.isEmpty()) {
+                    query.append(" WHERE ");
+                    
+                    String nome = (String) filtro.get("nome");
+                    if (nome != null && !nome.isEmpty()) {
+                        query.append(String.format(" %s LIKE ",NOME));
+                        query.append("'%").append(nome).append("%' AND");
+                        log.info(query.toString());
+                    }
+                    
+                    String celular = (String) filtro.get("celular");
+                    if (celular != null && !celular.isEmpty()) {
+                        query.append(String.format(" %s LIKE ",CEL));
+                        query.append("'%").append(celular).append("%' AND");
+                        log.info(query.toString());
+                    }
+                }
+                
+                query.replace(query.length()-3,query.length(), "");
+                
+                stmt = conexao.prepareStatement(query.toString());
+                log.info(query.toString());
+                ResultSet rs = stmt.executeQuery(query.toString());
+                return resultSetToCollection(rs);
+            } catch (SQLException ex) {
+                log.log(Level.SEVERE, null, ex);
+            }
+        } else {
+            return null;
+        }
+        return null;
+    }
+
     public Collection<Cliente> getClienteByCodigo(String codigo) {
         conectar();
         if (conexao != null) {
@@ -159,7 +201,8 @@ public class ClienteDAO {
                 ResultSet rs = stmt.executeQuery(query.toString());
                 return resultSetToCollection(rs);
             } catch (SQLException ex) {
-                log.log(Level.SEVERE, null, ex);            }
+                log.log(Level.SEVERE, null, ex);
+            }
         } else {
             return null;
         }
@@ -197,7 +240,7 @@ public class ClienteDAO {
             while (rs.next()) {
                 Cliente cliente = new Cliente();
                 cliente.setId(rs.getInt(ID));
-                cliente.setCodigo(rs.getString(CODIGO).trim());
+               // cliente.setCodigo(rs.getString(CODIGO).trim());
                 cliente.setNome(rs.getString(NOME).trim());
                 cliente.setEndereco(rs.getString(ENDEREÇO));
                 cliente.setCidade(rs.getString(CIDADE));
